@@ -1,0 +1,7 @@
+{
+    "id": "warpdrivectrl-client",
+    "name": "WarpDrive Ship Controller Client",
+    "description": "Allows remote control of some ship component (lift, lasers, cloak)",
+    "authors": "Toshayo",
+    "repo": "tree/master/WarpDriveShipCtrlClient"
+}
