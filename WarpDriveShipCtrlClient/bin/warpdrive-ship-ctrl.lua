@@ -26,6 +26,7 @@ end
 function updateStatus(componentName, button, status)
 	clearButton(button)
 	button.text = componentName .. " " .. status
+	button.invisible = false
 	if status == "disabled" then
 		button.back = 0xFF0000
 	elseif status == "enabled" then
@@ -41,7 +42,7 @@ buttons[1] = {
 	text = "Loading state...",
 	x = 3,
 	y = 2,
-	width = string.len("Loading state...") + 2,
+	width = string.len("Loading state...") + 4,
 	height = 3,
 	back = 0x888888,
 	color = 0xFFFFFF,
@@ -54,7 +55,7 @@ buttons[2] = {
 	text = "Loading state...",
 	x = 3,
 	y = 6,
-	width = string.len("Loading state...") + 2,
+	width = string.len("Loading state...") + 4,
 	height = 3,
 	back = 0x888888,
 	color = 0xFFFFFF,
@@ -67,7 +68,7 @@ buttons[3] = {
 	text = "Loading state...",
 	x = 3,
 	y = 10,
-	width = string.len("Loading state...") + 2,
+	width = string.len("Loading state...") + 4,
 	height = 3,
 	back = 0x888888,
 	color = 0xFFFFFF,
@@ -80,7 +81,7 @@ buttons[4] = {
 	text = "Loading state...",
 	x = 3,
 	y = 14,
-	width = string.len("Loading state...") + 2,
+	width = string.len("Loading state...") + 4,
 	height = 3,
 	back = 0x888888,
 	color = 0xFFFFFF,
@@ -89,13 +90,28 @@ buttons[4] = {
 	end
 }
 
+buttons[5] = {
+	text = "Teleport ",
+	x = 3,
+	y = 2,
+	width = string.len("Teleport") + 4,
+	height = 3,
+	back = 0x888800,
+	color = 0xFFFFFF,
+	onclick = function(user)
+		tunnel.send("SHIPCTRL_TELEPORT", user)
+	end
+}
+
 gpu.setBackground(BACKGROUND)
 gpu.setForeground(FOREGROUND)
 gpu.fill(1, 1, width, height, " ")
 
 for i=1,#buttons do
-	buttons[i].width = width / 2
-	buttons[i].x = width / 2 - buttons[i].width / 2
+	if i ~= 5 then
+		buttons[i].width = 2 * width / 5
+		buttons[i].x = width / 2 - buttons[i].width / 2
+	end
 	drawButton(buttons[i])
 end
 
@@ -118,13 +134,18 @@ function onModemMessage(...)
 			state = "boost mode"
 		end
 		updateStatus("Laser", buttons[3], state)
+	elseif component == "SHIPCTRL" then
+		clearButton(buttons[5])
+		if state == "PRESENT" then
+			drawButton(buttons[5])
+		end
 	end
 end
 
 function onClick(eventName, address, x, y, button, user)
 	for i=1,#buttons do
 		if buttons[i].x <= x and x <= buttons[i].x + buttons[i].width and buttons[i].y <= y and y <= buttons[i].y + buttons[i].height then
-			buttons[i].onclick()
+			buttons[i].onclick(user)
 		end
 	end
 end
