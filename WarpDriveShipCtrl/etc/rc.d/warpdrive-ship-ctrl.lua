@@ -1,4 +1,4 @@
-dofile("../../usr/lib/WarpDriveShipCtrl/toggleable-component.lua")
+dofile("/usr/lib/WarpDriveShipCtrl/toggleable-component.lua")
 
 function start()
     registerToggleableComponentHandler("warpdriveCloakingCore", "CLOAK")
