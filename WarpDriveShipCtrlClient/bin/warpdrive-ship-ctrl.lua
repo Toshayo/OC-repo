@@ -110,7 +110,7 @@ function onModemMessage(...)
 	elseif component == "CLOAK" then
 		updateStatus("Cloak", buttons[2], state)
 	elseif component == "SHIELD" then
-		updateStatus("Shield", buttons[3], state)
+		updateStatus("Shield", buttons[4], state)
 	elseif component == "LASER" then
 		if state == "SINGLE_MODE" then
 			state = "single mode"
