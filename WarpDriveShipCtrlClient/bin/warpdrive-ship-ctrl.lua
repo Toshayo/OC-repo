@@ -76,6 +76,19 @@ buttons[3] = {
 	end
 }
 
+buttons[4] = {
+	text = "Loading state...",
+	x = 3,
+	y = 14,
+	width = string.len("Loading state...") + 2,
+	height = 3,
+	back = 0x888888,
+	color = 0xFFFFFF,
+	onclick = function()
+		tunnel.send("TOGGLE_SHIELD")
+	end
+}
+
 gpu.setBackground(BACKGROUND)
 gpu.setForeground(FOREGROUND)
 gpu.fill(1, 1, width, height, " ")
@@ -90,12 +103,14 @@ function onModemMessage(...)
 	local msg = {...}
 	msg = msg[6]
 	sep = string.find(msg, "_")
-	component = string.sub(a, 0, sep - 1)
-	state = string.lower(string.sub(a, sep + 1, -1))
+	component = string.sub(msg, 0, sep - 1)
+	state = string.lower(string.sub(msg, sep + 1, -1))
 	if component == "LIFT" then
 		updateStatus("Lift", buttons[1], state)
 	elseif component == "CLOAK" then
 		updateStatus("Cloak", buttons[2], state)
+	elseif component == "SHIELD" then
+		updateStatus("Shield", buttons[3], state)
 	elseif component == "LASER" then
 		if state == "SINGLE_MODE" then
 			state = "single mode"
