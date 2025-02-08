@@ -68,14 +68,15 @@ function process.load(path, env, init, name)
           if type(msg) == "table" and msg.reason == "terminated" then
             return msg.code or 0
           end
-          return debug.traceback()
+          return {debug.traceback(), msg}
         end, ...)
     }
 
     if not result[1] and type(result[2]) ~= "number" then
       -- run exception handler
       xpcall(function()
-          local stack = result[2]:gsub("^([^\n]*\n)[^\n]*\n[^\n]*\n","%1")
+          local msg = result[2][2]
+          local stack = result[2][1]:gsub("^([^\n]*\n)[^\n]*\n[^\n]*\n","%1")
           io.stderr:write(string.format("%s:\n%s", msg or "", stack))
         end,
         function(msg)
