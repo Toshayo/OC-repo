@@ -1,0 +1,7 @@
+{
+    "id": "openos-error-handling-fix",
+    "name": "OpenOS 1.8.6+ Error handling fix",
+    "description": "Fixes missing error message on crash",
+    "authors": "Toshayo",
+    "repo": "tree/master/OpenOsErrorHandlingFix"
+}
